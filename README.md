@@ -12,7 +12,7 @@ install.packages("shiny")
 2) Rode o diretamente do github
 
 ```
-shiny::runApp("semantix_closeness_centrality", "Athospd")
+shiny::runGitHub("semantix_closeness_centrality", "Athospd")
 ```
 
 ## Como usar
