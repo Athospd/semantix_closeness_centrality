@@ -73,7 +73,7 @@ gera_funcao_bfs <- function(lista_de_adjacencias) {
         }
       }
     }
-    return(resultado %>% map_call(sum))
+    return(invoke(sum, resultado))
   }
   return(bfs)
 }

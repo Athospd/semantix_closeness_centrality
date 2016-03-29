@@ -1,7 +1,7 @@
 dashboardPage(
   dashboardHeader(title = "Closeness Centrality"),
   dashboardSidebar(
-    fileInput("carrega_arquivo", "Carregar lista de vértices",
+    fileInput("carrega_arquivo", "Carregar lista de arestas",
               multiple = FALSE),
     div(strong("OU"), class = "shiny-input-container", style = "margin-top: -30px;text-align: center;"),
     div(actionButton("dados_de_exemplo", "Exemplo", class = "shiny-input-container", style = "padding: 10px 10px;"), class = "shiny-input-container", style = "padding: 10px 5px"),
@@ -23,7 +23,7 @@ dashboardPage(
         fluidRow(
           box(width = 6, status = "info", solidHeader = TRUE,
             title = "Grafo",
-            simpleNetworkOutput("grafo")
+            forceNetworkOutput("grafo")
           ),
           box(width = 6, status = "info", solidHeader = TRUE,
             title = "Tabela de Vértices",

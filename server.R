@@ -48,7 +48,7 @@ function(input, output, session) {
         raiz <- names(lista_de_adjacencia())
         vertices <- data_frame(raiz = raiz,
                                distancia = map_dbl(raiz, bfs)) %>%
-          mutate(centralidade_de_proximidade = 1/sum(distancia),
+          mutate(centralidade_de_proximidade = 1/(distancia),
                  normalizada = round(100*(centralidade_de_proximidade - min(centralidade_de_proximidade))/(max(centralidade_de_proximidade) - min(centralidade_de_proximidade)), 1))
       }
     }, message = "Calculando centralidade de proximidade.",
@@ -73,9 +73,11 @@ function(input, output, session) {
   })
   
   n_arestas <- reactive({
-    if(dados() %>% is.null %>% not)
-      dados() %>% nrow
-    else "-"
+    if(dados() %>% is.null %>% not) {
+      dados() %>% as.data.frame %>% nrow
+    } else {
+      0
+    }
   })
   
   output$arestas <- renderValueBox({
@@ -91,20 +93,27 @@ function(input, output, session) {
     valueBox(
       value = paste(tempo_de_execucao(), "s"),
       subtitle = "Tempo de execução",
-      icon = icon("clock-o")
+      icon = icon("clock-o"),
+      color = "red"
     )
   })
   
-  output$grafo <- renderSimpleNetwork({
+  output$grafo <- renderForceNetwork({
       forceNetwork(Links = dados(), 
-                   Nodes = tabela_de_vertices() %>% mutate(grupo = centralidade_de_proximidade %>% as.factor %>% as.numeric),
+                   Nodes = tabela_de_vertices() %>% mutate(normalizada = 100*(normalizada/100)^4),
                    Source = "V1", 
                    Target = "V2", 
                    NodeID = "raiz",
-                   Group = "grupo",
+                   Nodesize = "normalizada",
+                   Group = "normalizada",
+                   linkWidth = 0.3,
+                   colourScale = "d3.scale.ordinal().domain([1]).rangeBands([0, 100])",
                    fontSize = 18, 
-                   zoom = TRUE,
-                   bounded = TRUE)
+                   zoom = FALSE,
+                   bounded = TRUE,
+                   charge = -400,
+                   radiusCalculation = JS("Math.sqrt(d.nodesize)*2+6"),
+                   opacity = .5)
   })
   
   output$tabela_de_vertices <- renderDataTable({
