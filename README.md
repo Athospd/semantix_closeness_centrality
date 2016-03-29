@@ -4,7 +4,7 @@ Web app que mostra a proximidade de um vértice ao centro de sua rede social ([C
 ## Instalação
 
 ```
-install.packages(c("magrittr", "networkD3", "stringi", "shiny", "purrr", "tidyr", "plyr", "dplyr", "devtools"))
+install.packages(c("magrittr", "networkD3", "stringi", "shiny", "purrr", "tidyr", "plyr", "dplyr", "digest", "devtools"))
 devtools::install_github("rstudio/shinydashboard")
 ```
 ## Como rodar
